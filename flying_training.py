@@ -8,8 +8,6 @@ from pygame.locals import (
     RLEACCEL,
     K_UP,
     K_DOWN,
-    K_LEFT,
-    K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
     QUIT,
@@ -28,21 +26,15 @@ class Player(pygame.sprite.Sprite):
         self.surf = pygame.transform.scale(self.surf, (32, 48)) 
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
+        self.rect.y = SCREEN_HEIGHT/2
+        self.rect.x = 100
 
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -5)
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 5)
-        if pressed_keys[K_LEFT]:
-            self.rect.move_ip(-3, 0)
-        if pressed_keys[K_RIGHT]:
-            self.rect.move_ip(3, 0)
 
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > SCREEN_HEIGHT:
@@ -59,7 +51,7 @@ class Enemy(pygame.sprite.Sprite):
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
-        self.speed = random.randint(1, 5)
+        self.speed = random.randint(5, 15)
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
