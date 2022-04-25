@@ -87,9 +87,16 @@ pygame.init()
 # Create the screen object
 # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-bg_img = pygame.image.load('Goose_Life_Skybox.png')
-bg_img = pygame.transform.scale(bg_img,(SCREEN_WIDTH,SCREEN_HEIGHT))
-bg_img = pygame.transform.rotate(bg_img,180)
+sky_bg = pygame.image.load('Goose_Life_Skybox.png')
+sky_bg = pygame.transform.scale(sky_bg,(SCREEN_WIDTH,SCREEN_HEIGHT))
+sky_bg = pygame.transform.rotate(sky_bg,180)
+hills_bg = pygame.image.load('Goose_Life_Rolling_Background_2.png')
+hills_bg = pygame.transform.scale(hills_bg,(SCREEN_WIDTH,SCREEN_HEIGHT))
+transColor = hills_bg.get_at((0,0))
+hills_bg.set_colorkey(transColor)
+
+
+i = 0
 # Create a custom event for adding a new enemy
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
@@ -146,7 +153,15 @@ while running:
     clouds.update()
 
     # Draw the sky background
-    screen.blit(bg_img,(0,0))
+    screen.blit(sky_bg,(0,0))
+
+    #Draw the hills
+    screen.blit(hills_bg,(i,0))
+    screen.blit(hills_bg,(SCREEN_WIDTH+i,0))
+    if (i==-SCREEN_WIDTH):
+        screen.blit(hills_bg,(SCREEN_WIDTH+i,0))
+        i=0
+    i-=1
 
     # Draw the player on the screen
     for entity in all_sprites:
