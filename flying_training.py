@@ -17,6 +17,8 @@ from pygame.locals import (
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 560
 
+game_speed=5
+
 # Define a player object by extending pygame.sprite.Sprite
 # The surface drawn on the screen is now an attribute of 'player'
 class Player(pygame.sprite.Sprite):
@@ -40,23 +42,23 @@ class Player(pygame.sprite.Sprite):
         if self.rect.bottom > SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
 
-class Enemy(pygame.sprite.Sprite):
+class Coin(pygame.sprite.Sprite):
     def __init__(self):
-        super(Enemy, self).__init__()
-        self.surf = pygame.Surface((20, 10))
-        self.surf.fill((0, 0, 255))
+        super(Coin, self).__init__()
+        self.surf = pygame.Surface((15, 15))
+        self.surf.fill((255, 255, 0))
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
-        self.speed = random.randint(5, 15)
+        self.speed = 10
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
     def update(self):
-        self.rect.move_ip(-self.speed, 0)
+        self.rect.move_ip(-self.speed*game_speed, 0)
         if self.rect.right < 0:
             self.kill()
 
@@ -77,7 +79,7 @@ class Cloud(pygame.sprite.Sprite):
     # Move the cloud based on a constant speed
     # Remove the cloud when it passes the left edge of the screen
     def update(self):
-        self.rect.move_ip(-5, 0)
+        self.rect.move_ip(-5*game_speed, 0)
         if self.rect.right < 0:
             self.kill()
 
@@ -98,21 +100,21 @@ hills_bg.set_colorkey(transColor)
 
 i = 0
 # Create a custom event for adding a new enemy
-ADDENEMY = pygame.USEREVENT + 1
-pygame.time.set_timer(ADDENEMY, 250)
+ADDCOIN = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDCOIN, round(1500/game_speed))
 ADDCLOUD = pygame.USEREVENT + 2
-pygame.time.set_timer(ADDCLOUD, 1500)
+pygame.time.set_timer(ADDCLOUD, round(2000/game_speed))
 
 clock = pygame.time.Clock()
 # Instantiate player. Right now, this is just a rectangle.
 player = Player()
-enemies = pygame.sprite.Group()
+coins = pygame.sprite.Group()
 clouds = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 # Variable to keep the main loop running
 running = True
-
+score = 0
 # Main loop
 while running:
     # for loop through the event queue
@@ -127,29 +129,29 @@ while running:
             running = False
 
     # Add a new enemy?
-        elif event.type == ADDENEMY:
+        elif event.type == ADDCOIN:
             # Create the new enemy and add it to sprite groups
-            new_enemy = Enemy()
-            enemies.add(new_enemy)
-            all_sprites.add(new_enemy)
+            new_coin = Coin()
+            coins.add(new_coin)
+            all_sprites.add(new_coin)
     # Add a new cloud?
         elif event.type == ADDCLOUD:
             # Create the new cloud and add it to sprite groups
             new_cloud = Cloud()
             clouds.add(new_cloud)
             all_sprites.add(new_cloud)
-
-    if pygame.sprite.spritecollideany(player, enemies):
-    # If so, then remove the player and stop the loop
-        player.kill()
-        running = False
+        
+    for coin in coins:
+        if player.rect.colliderect(coin):
+            coin.kill()
+            score+=1
 
     pressed_keys = pygame.key.get_pressed()
     # Update the player sprite based on user keypresses
     player.update(pressed_keys)
 
     # Update enemy position
-    enemies.update()
+    coins.update()
     clouds.update()
 
     # Draw the sky background
@@ -158,17 +160,21 @@ while running:
     #Draw the hills
     screen.blit(hills_bg,(i,0))
     screen.blit(hills_bg,(SCREEN_WIDTH+i,0))
-    if (i==-SCREEN_WIDTH):
+    if (i<-SCREEN_WIDTH):
         screen.blit(hills_bg,(SCREEN_WIDTH+i,0))
         i=0
-    i-=1
+    i -= game_speed
 
     # Draw the player on the screen
     for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
 
+    font = pygame.font.Font(None, 74)
+    text = font.render(str(score), 1, (255, 255, 255))
+    screen.blit(text, (250,10))
     # Update the display
     pygame.display.flip()
 
     # Ensure program maintains a rate of 30 frames per second
     clock.tick(60)
+    game_speed=game_speed*.999
