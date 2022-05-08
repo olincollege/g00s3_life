@@ -9,7 +9,9 @@ A spinoff of Duck Life created by Meredith Alley, Aaron Codrington, and Gabe Zak
 The goal of this project was for us to relive the best days of our youth playing Duck game 
 
 
-# 
+# Pictures of Sprites:
+![](images/titlescreen.PNG)
+
 
 
 # required Packages:
