@@ -13,7 +13,9 @@ from constraints import SCREEN_HEIGHT
 from pygame.locals import (
     RLEACCEL,
     K_UP,
-    K_DOWN
+    K_DOWN,
+    K_LEFT,
+    K_RIGHT
 )
 
 
@@ -25,7 +27,8 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__()
         self.surf = pygame.image.load("images/player_sprites/flygrey1.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (80, 48))
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        badColor = self.surf.get_at((0,0))
+        self.surf.set_colorkey(badColor)
         self.rect = self.surf.get_rect()
         self.rect.y = SCREEN_HEIGHT/2
         self.rect.x = 100
@@ -35,11 +38,19 @@ class Player(pygame.sprite.Sprite):
             self.rect.move_ip(0, -5)
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 5)
+        if pressed_keys[K_LEFT]:
+            self.rect.move_ip(-5, 0)
+        if pressed_keys[K_RIGHT]:
+            self.rect.move_ip(5, 0)
 
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
 
 
 
