@@ -49,7 +49,7 @@ coins = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 running = True
 WHITE = (255, 255, 255)
-
+bg = pygame.image.load('images/titlescreen.PNG')
 # Create a custom event for adding a new enemy
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
@@ -285,12 +285,13 @@ def title_screen(screen):
     )
 
     buttons = [start_btn, quit_btn]
-
+    pygame.image.load('images/titlescreen.PNG')
     while True:
         mouse_up = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+        screen.blit(bg,(0,0))
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
