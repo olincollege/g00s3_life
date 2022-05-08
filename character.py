@@ -60,6 +60,10 @@ class Enemy(pygame.sprite.Sprite):
         )
         self.speed = random.randint(5, 15)
 
+    @property
+    def self(self):
+        return self
+    
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
     def update(self):
@@ -101,7 +105,7 @@ class Coin(pygame.sprite.Sprite):
     """
     def __init__(self):
         super(Coin, self).__init__()
-        self.surf = pygame.image.load("images/player_sprites/flygrey2.PNG").convert()
+        self.surf = pygame.image.load("images/player_sprites/coin.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (60, 60))
         self.surf.set_colorkey((0, 0, 0), RLEACCEL)
         # The starting position is randomly generated
@@ -115,6 +119,6 @@ class Coin(pygame.sprite.Sprite):
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
     def update(self):
-        self.rect.move_ip(-5, 0)
+        self.rect.move_ip(-3, 0)
         if self.rect.right < 0:
             self.kill()
