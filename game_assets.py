@@ -55,8 +55,8 @@ ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
 ADDCLOUD = pygame.USEREVENT + 2
 pygame.time.set_timer(ADDCLOUD, 1500)
-ADDCOIN = pygame.USEREVENT + 1
-pygame.time.set_timer(ADDCOIN, round(1500/5))
+ADDCOIN = pygame.USEREVENT + 3
+pygame.time.set_timer(ADDCOIN, round(300))
 
 
 all_sprites.add(player)
@@ -89,13 +89,13 @@ def play_level(screen):
         elif event.type == QUIT:
             game_state = game_state.QUIT
 
-    # Add a new enemy?
+    # Add a new enemy
         elif event.type == ADDENEMY:
             # Create the new enemy and add it to sprite groups
             new_enemy = Enemy()
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)
-    # Add a new cloud?
+    # Add a new cloud
         elif event.type == ADDCLOUD:
             # Create the new cloud and add it to sprite groups
             new_cloud = Cloud()
@@ -103,7 +103,7 @@ def play_level(screen):
             all_sprites.add(new_cloud)
 
         elif event.type == ADDCOIN:
-            # Create the new enemy and add it to sprite groups
+            # Create the new coin and add it to sprite groups
             new_coin = Coin()
             coins.add(new_coin)
             all_sprites.add(new_coin)
@@ -123,11 +123,9 @@ def play_level(screen):
     # Update the player sprite based on user keypresses
     player.update(pressed_keys)
 
-    # Update enemy position
+    # Update sprite positions
     enemies.update()
     clouds.update()
-
-    #update coins
     coins.update()
 
     # Draw the sky background
