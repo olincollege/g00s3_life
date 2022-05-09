@@ -15,7 +15,7 @@ This project served as a great way to improve our coding prowess and satiated ou
 <img src="images/player_sprites/coin.PNG" width ="100"> \
 <img src="images/player_sprites/greengoose.PNG" width ="100"> \
 <img src="images/duck.png" width ="100"> \
-<img src="images/Goose_Life_Rolling_Background.png" width ="100"> \
+<img src="images/Goose_Life_Rolling_Background_2.png" width ="100"> \
 <img src="images/player_sprites/rainbowfly.PNG" width ="100">
 
 
@@ -54,7 +54,7 @@ Fun fact: Aaron really loves learning languages. He has studied french for 7 yea
 
 Quote: "PLEEEEEEEEASSSSE" -Aaron 2022
 
-## Meredith
+## Meredith:
 Meredith "Should've stayed in middle school" Alley is currently **DEVELOPING** her interest in game design _yall see what i did there ;) DEVELOPING get it_
 
 Fun fact: My two younger sisters are planning on going to Wellesley and Babson,respectively
