@@ -14,7 +14,7 @@ This project served as a great way to improve our coding prowess and satiated ou
 
 <img src="images/player_sprites/coin.PNG" width ="100"> \
 <img src="images/player_sprites/greengoose.PNG" width ="100"> \
-<img src="images/duck.png" width ="100"> \
+<img src="images/player_sprites/duck.png" width ="100"> \
 <img src="images/Goose_Life_Rolling_Background_2.png" width ="100"> \
 <img src="images/player_sprites/rainbowfly.PNG" width ="100">
 
@@ -45,7 +45,7 @@ git clone https://github.com/olincollege/g00se_life
 once the repo is cloned simply cd into it and type python mainloop.py into the terminal in order to start the game.
 
 # Video of project:
-(insert video link here)
+https://youtu.be/ev18DZlHDrc
 
 # About the team:
 
