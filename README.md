@@ -44,6 +44,9 @@ git clone https://github.com/olincollege/g00se_life
 
 once the repo is cloned simply cd into it and type python mainloop.py into the terminal in order to start the game.
 
+# Video of project:
+(insert video link here)
+
 # About the team:
 
 
