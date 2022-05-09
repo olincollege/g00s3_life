@@ -1,5 +1,5 @@
 """
-run the game from this file
+Run the game from this file
 """
 
 # importing needed libraries
