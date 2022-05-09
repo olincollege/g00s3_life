@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
     the payer class takes user input to update its position in the game
 
     """
+
     def __init__(self):
         """
         initializes player
@@ -32,9 +33,10 @@ class Player(pygame.sprite.Sprite):
         Args: self
         """
         super(Player, self).__init__()
-        self.surf = pygame.image.load("images/player_sprites/flygrey1.PNG").convert()
+        self.surf = pygame.image.load(
+            "images/player_sprites/flygrey1.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (80, 48))
-        badColor = self.surf.get_at((0,0))
+        badColor = self.surf.get_at((0, 0))
         self.surf.set_colorkey(badColor)
         self.rect = self.surf.get_rect()
         self.rect.y = SCREEN_HEIGHT/2
@@ -69,11 +71,13 @@ class Player(pygame.sprite.Sprite):
         if self.rect.right > SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
 
+
 class RainbowPlayer(pygame.sprite.Sprite):
     """
     takes the same inputs as the player class
     a "re-skin" of the original g00se Life goose 
     """
+
     def __init__(self, x, y):
         """
         initializes the RainbowPlayer
@@ -85,9 +89,10 @@ class RainbowPlayer(pygame.sprite.Sprite):
 
         """
         super(RainbowPlayer, self).__init__()
-        self.surf = pygame.image.load("images/player_sprites/rainbowfly.PNG").convert()
+        self.surf = pygame.image.load(
+            "images/player_sprites/rainbowfly.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (80, 48))
-        badColor = self.surf.get_at((0,0))
+        badColor = self.surf.get_at((0, 0))
         self.surf.set_colorkey(badColor)
         self.rect = self.surf.get_rect()
         self.rect.y = y
@@ -126,6 +131,7 @@ class Enemy(pygame.sprite.Sprite):
     Enemy sprite "spawns" in at random points
     also has random speed from 5-15
     """
+
     def __init__(self):
         """
         initializes enemy at random points
@@ -134,9 +140,10 @@ class Enemy(pygame.sprite.Sprite):
 
         """
         super(Enemy, self).__init__()
-        self.surf = pygame.image.load("images/player_sprites/duck.png").convert()
-        self.surf = pygame.transform.scale(self.surf, (40,30))
-        badColor = self.surf.get_at((0,0))
+        self.surf = pygame.image.load(
+            "images/player_sprites/duck.png").convert()
+        self.surf = pygame.transform.scale(self.surf, (40, 30))
+        badColor = self.surf.get_at((0, 0))
         self.surf.set_colorkey(badColor)
         self.rect = self.surf.get_rect(
             center=(
@@ -149,7 +156,7 @@ class Enemy(pygame.sprite.Sprite):
     @property
     def self(self):
         return self
-    
+
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
     def update(self):
@@ -163,12 +170,14 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+
 class BigCloud(pygame.sprite.Sprite):
     """
     Twice as big as the normal cloud
     The BigCloud is randomly generated at different places on the screen
     when the BigCloud moves off screen it is removed
     """
+
     def __init__(self):
         """
         initializes BigCloud
@@ -177,7 +186,8 @@ class BigCloud(pygame.sprite.Sprite):
 
         """
         super(BigCloud, self).__init__()
-        self.surf = pygame.image.load("images/player_sprites/Goose_Life_Cloud.png").convert()
+        self.surf = pygame.image.load(
+            "images/player_sprites/Goose_Life_Cloud.png").convert()
         self.surf = pygame.transform.scale(self.surf, (200, 200))
         self.surf.set_colorkey((0, 0, 0), RLEACCEL)
         # The starting position is randomly generated
@@ -201,10 +211,12 @@ class BigCloud(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+
 class Cloud(pygame.sprite.Sprite):
     """
     The cloud is randomly generated at different places on the screen
     """
+
     def __init__(self):
         """
         initializes cloud sprite
@@ -213,7 +225,8 @@ class Cloud(pygame.sprite.Sprite):
 
         """
         super(Cloud, self).__init__()
-        self.surf = pygame.image.load("images/player_sprites/Goose_Life_Cloud.png").convert()
+        self.surf = pygame.image.load(
+            "images/player_sprites/Goose_Life_Cloud.png").convert()
         self.surf = pygame.transform.scale(self.surf, (100, 100))
         self.surf.set_colorkey((0, 0, 0), RLEACCEL)
         # The starting position is randomly generated
@@ -240,13 +253,13 @@ class Cloud(pygame.sprite.Sprite):
             self.kill()
 
 
-
 class Coin(pygame.sprite.Sprite):
     """
     the coin is randomly generated at different places on the screen
     when coin moves off of the screen the sprite gets removed
 
     """
+
     def __init__(self):
         """
         initializes coin 
@@ -256,8 +269,8 @@ class Coin(pygame.sprite.Sprite):
         Returns: an interactable coin sprite at random points on the screen
         """
         super(Coin, self).__init__()
-        #loading the image of the coin from the PNG pixil art
-        self.surf = pygame.image.load("images/player_sprites/coin.PNG").convert()
+        self.surf = pygame.image.load(
+            "images/player_sprites/coin.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (60, 60))
         #removing black background around the coin
         self.surf.set_colorkey((0, 0, 0), RLEACCEL)

@@ -2,7 +2,7 @@
 stores functions and classes we call in order to play the game
 
 """
-#importing needed libraries
+# importing needed libraries
 import pygame
 import pygame.freetype
 import sys
@@ -21,27 +21,27 @@ from character import Coin
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
 from pygame.locals import (
-    #RLEACCEL,
-    #K_UP,
-    #K_DOWN,
-    #K_LEFT,
-    #K_RIGHT,
+    # RLEACCEL,
+    # K_UP,
+    # K_DOWN,
+    # K_LEFT,
+    # K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
     KEYUP,
     QUIT,
 )
 
-#defining variables
+# defining variables
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 start_screen = pygame.image.load('images/titlescreen.PNG')
 loss_screen = pygame.image.load('images/newoof.PNG')
 sky_bg = pygame.image.load('images/Goose_Life_Skybox.png')
-sky_bg = pygame.transform.scale(sky_bg,(SCREEN_WIDTH,SCREEN_HEIGHT))
-sky_bg = pygame.transform.rotate(sky_bg,180)
+sky_bg = pygame.transform.scale(sky_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+sky_bg = pygame.transform.rotate(sky_bg, 180)
 hills_bg = pygame.image.load('images/Goose_Life_Rolling_Background_2.png')
-hills_bg = pygame.transform.scale(hills_bg,(SCREEN_WIDTH,SCREEN_HEIGHT))
-bad_color = hills_bg.get_at((0,0))
+hills_bg = pygame.transform.scale(hills_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+bad_color = hills_bg.get_at((0, 0))
 hills_bg.set_colorkey(bad_color)
 clock = pygame.time.Clock()
 enemies = pygame.sprite.Group()
@@ -61,11 +61,11 @@ pygame.time.set_timer(ADDCLOUD, 4000)
 # Variable to keep the main loop running
 
 
-#initializing pygame
+# initializing pygame
 pygame.init()
 
 
-#first function
+# first function
 def play_level(screen):
     """
 
@@ -128,25 +128,25 @@ def play_level(screen):
             if pygame.sprite.spritecollideany(new_player, enemies):
                 for entity in all_sprites:
                     entity.kill()
-                return score#exits game when player dead
+                return score  # exits game when player dead
 
             new_player.update(pressed_keys)
 
             for coin in coins:
                 if new_player.rect.colliderect(coin):
                     coin.kill()
-                    score+=1
+                    score += 1
         else:
             if pygame.sprite.spritecollideany(player, enemies):
                 for entity in all_sprites:
                     entity.kill()
-                return score#exits game when player dead
+                return score  # exits game when player dead
             player.update(pressed_keys)
 
             for coin in coins:
                 if player.rect.colliderect(coin):
                     coin.kill()
-                    score+=1
+                    score += 1
         # Update the player sprite based on user keypresses
 
         # Update sprite positions
@@ -156,14 +156,14 @@ def play_level(screen):
         big_clouds.update()
 
         # Draw the sky background
-        screen.blit(sky_bg,(0,0))
+        screen.blit(sky_bg, (0, 0))
 
-        #Draw the hills
-        screen.blit(hills_bg,(i,0))
-        screen.blit(hills_bg,(SCREEN_WIDTH+i,0))
-        if i==-SCREEN_WIDTH:
-            screen.blit(hills_bg,(SCREEN_WIDTH+i,0))
-            i=0
+        # Draw the hills
+        screen.blit(hills_bg, (i, 0))
+        screen.blit(hills_bg, (SCREEN_WIDTH+i, 0))
+        if i == -SCREEN_WIDTH:
+            screen.blit(hills_bg, (SCREEN_WIDTH+i, 0))
+            i = 0
         i -= 1
 
         # Draw the player on the screen
@@ -172,14 +172,14 @@ def play_level(screen):
 
         font = pygame.font.Font(None, 74)
         text = font.render(str(score), 1, (255, 255, 255))
-        screen.blit(text, (10,SCREEN_HEIGHT-80))
-
+        screen.blit(text, (10, SCREEN_HEIGHT-80))
 
         # Update the display
         pygame.display.flip()
 
         # Ensure program maintains a rate of 60 frames per second
         clock.tick(60)
+
 
 def checkForKeyPress():
     if len(pygame.event.get(QUIT)) > 0:
@@ -192,38 +192,43 @@ def checkForKeyPress():
         terminate()
     return keyUpEvents[0].key
 
+
 def terminate():
     pygame.quit()
     sys.exit()
 
+
 def title_screen(screen):
     titleFont = pygame.font.Font(None, 40)
-    pressKeySurf = titleFont.render('Press any key!', True, (0,0,0))
+    pressKeySurf = titleFont.render('Press any key!', True, (0, 0, 0))
     pressKeyRect = pressKeySurf.get_rect()
     pressKeyRect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
 
     while True:
-        screen.blit(start_screen,(0,0))
+        screen.blit(start_screen, (0, 0))
         screen.blit(pressKeySurf, pressKeyRect)
         if checkForKeyPress():
-            pygame.event.get() # clear event queue
+            pygame.event.get()  # clear event queue
             return
         pygame.display.flip()
+
 
 def end_screen(screen, score):
     """
     """
     titleFont = pygame.font.Font(None, 40)
     if score < 15:
-        pressKeySurf = titleFont.render('But can you make it to 15? Try again!', True, (0,0,0))
+        pressKeySurf = titleFont.render(
+            'But can you make it to 15? Try again!', True, (0, 0, 0))
     elif score < 50:
-        pressKeySurf = titleFont.render('But can you make it all the way to 50? Try again!', True, (0,0,0))
+        pressKeySurf = titleFont.render(
+            'But can you make it all the way to 50? Try again!', True, (0, 0, 0))
     else:
-        pressKeySurf = titleFont.render(':)', True, (0,0,0))
+        pressKeySurf = titleFont.render(':)', True, (0, 0, 0))
     pressKeyRect = pressKeySurf.get_rect()
     pressKeyRect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
 
-    screen.blit(loss_screen,(0,0))
+    screen.blit(loss_screen, (0, 0))
     screen.blit(pressKeySurf, pressKeyRect)
     pygame.display.update()
     pygame.time.wait(500)
