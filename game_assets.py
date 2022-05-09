@@ -116,7 +116,7 @@ def play_level(screen):
 
         pressed_keys = pygame.key.get_pressed()
 
-        if score > 19:
+        if score > 14:
             if rainbow is False:
                 current_x = player.rect.x
                 current_y = player.rect.y
@@ -214,10 +214,12 @@ def end_screen(screen, score):
     """
     """
     titleFont = pygame.font.Font(None, 40)
-    if score < 20:
-        pressKeySurf = titleFont.render('But can you make it to 20? Try again!', True, (0,0,0))
+    if score < 15:
+        pressKeySurf = titleFont.render('But can you make it to 15? Try again!', True, (0,0,0))
+    elif score < 50:
+        pressKeySurf = titleFont.render('But can you make it all the way to 50? Try again!', True, (0,0,0))
     else:
-        pressKeySurf = titleFont.render('Good job! But can you get higher?', True, (0,0,0))
+        pressKeySurf = titleFont.render(':)', True, (0,0,0))
     pressKeyRect = pressKeySurf.get_rect()
     pressKeyRect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
 
