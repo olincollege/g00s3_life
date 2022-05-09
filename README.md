@@ -14,7 +14,7 @@ This project served as a great way to improve our coding prowess and satiated ou
 
 <img src="images/player_sprites/coin.PNG" width ="100"> \
 <img src="images/player_sprites/greengoose.PNG" width ="100"> \
-<img src="images/duck.png" width ="100"> \
+<img src="images/player_sprites/duck.png" width ="100"> \
 <img src="images/Goose_Life_Rolling_Background_2.png" width ="100"> \
 <img src="images/player_sprites/rainbowfly.PNG" width ="100">
 
