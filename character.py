@@ -61,8 +61,10 @@ class Enemy(pygame.sprite.Sprite):
     """
     def __init__(self):
         super(Enemy, self).__init__()
-        self.surf = pygame.Surface((20, 10))
-        self.surf.fill((0, 0, 255))
+        self.surf = pygame.image.load("images/duck.png").convert()
+        self.surf = pygame.transform.scale(self.surf, (40,30))
+        badColor = self.surf.get_at((0,0))
+        self.surf.set_colorkey(badColor)
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
@@ -91,7 +93,7 @@ class Cloud(pygame.sprite.Sprite):
     def __init__(self):
         super(Cloud, self).__init__()
         self.surf = pygame.image.load("images/player_sprites/Goose_Life_Cloud.png").convert()
-        self.surf = pygame.transform.scale(self.surf, (60, 60))
+        self.surf = pygame.transform.scale(self.surf, (100, 100))
         self.surf.set_colorkey((0, 0, 0), RLEACCEL)
         # The starting position is randomly generated
         self.rect = self.surf.get_rect(

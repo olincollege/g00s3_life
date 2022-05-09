@@ -5,9 +5,6 @@ stores functions and classes we call in order to play the game
 #importing needed libraries
 import pygame
 import pygame.freetype
-from pygame.sprite import Sprite
-from pygame.rect import Rect
-from enum import Enum
 import sys
 
 # Import the pygame module
@@ -50,9 +47,6 @@ enemies = pygame.sprite.Group()
 clouds = pygame.sprite.Group()
 coins = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
-running = True
-WHITE = (255, 255, 255)
-bg = pygame.image.load('images/titlescreen.PNG')
 # Create a custom event for adding a new enemy
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
@@ -84,20 +78,19 @@ def play_level(screen):
         for event in pygame.event.get():
             # Check for KEYDOWN event
             if event.type == KEYDOWN:
-                # If the Esc key is pressed, then exit the main loop
+                # If the Esc key is pressed, then close the game.
                 if event.key == K_ESCAPE:
                     terminate()
-            # Check for QUIT event. If QUIT, then set running to false.
+            # Check for QUIT event. If QUIT, then close the game.
             elif event.type == QUIT:
                 terminate()
-
-        # Add a new enemy
+            # Add a new enemy
             elif event.type == ADDENEMY:
                 # Create the new enemy and add it to sprite groups
                 new_enemy = Enemy()
                 enemies.add(new_enemy)
                 all_sprites.add(new_enemy)
-        # Add a new cloud
+            # Add a new cloud
             elif event.type == ADDCLOUD:
                 # Create the new cloud and add it to sprite groups
                 new_cloud = Cloud()
@@ -119,7 +112,7 @@ def play_level(screen):
         if pygame.sprite.spritecollideany(player, enemies):
             for entity in all_sprites:
                 entity.kill()
-            return #exits game when player dead
+            return score#exits game when player dead
 
         pressed_keys = pygame.key.get_pressed()
         # Update the player sprite based on user keypresses
@@ -147,7 +140,7 @@ def play_level(screen):
 
         font = pygame.font.Font(None, 74)
         text = font.render(str(score), 1, (255, 255, 255))
-        screen.blit(text, (250,10))
+        screen.blit(text, (SCREEN_HEIGHT-80,10))
 
 
         # Update the display
@@ -185,11 +178,14 @@ def title_screen(screen):
             return
         pygame.display.flip()
 
-def end_screen(screen):
+def end_screen(screen, score):
     """
     """
     titleFont = pygame.font.Font(None, 40)
-    pressKeySurf = titleFont.render('Replay?', True, (0,0,0))
+    if score < 100:
+        pressKeySurf = titleFont.render('But can you make it to 100? Try again!', True, (0,0,0))
+    else:
+        pressKeySurf = titleFont.render('Good job! But can you get higher?', True, (0,0,0))
     pressKeyRect = pressKeySurf.get_rect()
     pressKeyRect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
 
