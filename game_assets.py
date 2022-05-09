@@ -12,8 +12,10 @@ import pygame
 from constraints import SCREEN_WIDTH
 from constraints import SCREEN_HEIGHT
 from character import Player
+from character import RainbowPlayer
 from character import Enemy
 from character import Cloud
+from character import BigCloud
 from character import Coin
 
 # Import pygame.locals for easier access to key coordinates
@@ -42,9 +44,9 @@ hills_bg = pygame.transform.scale(hills_bg,(SCREEN_WIDTH,SCREEN_HEIGHT))
 bad_color = hills_bg.get_at((0,0))
 hills_bg.set_colorkey(bad_color)
 clock = pygame.time.Clock()
-player = Player()
 enemies = pygame.sprite.Group()
 clouds = pygame.sprite.Group()
+big_clouds = pygame.sprite.Group()
 coins = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 # Create a custom event for adding a new enemy
@@ -54,6 +56,8 @@ ADDCLOUD = pygame.USEREVENT + 2
 pygame.time.set_timer(ADDCLOUD, 1500)
 ADDCOIN = pygame.USEREVENT + 3
 pygame.time.set_timer(ADDCOIN, round(300))
+ADDBIGCLOUD = pygame.USEREVENT + 4
+pygame.time.set_timer(ADDCLOUD, 4000)
 # Variable to keep the main loop running
 
 
@@ -72,7 +76,10 @@ def play_level(screen):
     """
     i = 0
     score = 0
+    player = Player()
     all_sprites.add(player)
+    rainbow = False
+
     while True:
         # for loop through the event queue
         for event in pygame.event.get():
@@ -96,32 +103,57 @@ def play_level(screen):
                 new_cloud = Cloud()
                 clouds.add(new_cloud)
                 all_sprites.add(new_cloud)
-
             elif event.type == ADDCOIN:
                 # Create the new coin and add it to sprite groups
                 new_coin = Coin()
                 coins.add(new_coin)
                 all_sprites.add(new_coin)
-
-        for coin in coins:
-            if player.rect.colliderect(coin):
-                coin.kill()
-                score+=1
-
-
-        if pygame.sprite.spritecollideany(player, enemies):
-            for entity in all_sprites:
-                entity.kill()
-            return score#exits game when player dead
+            elif event.type == ADDBIGCLOUD:
+                # Create the new cloud and add it to sprite groups
+                new_big_cloud = BigCloud()
+                big_clouds.add(new_big_cloud)
+                all_sprites.add(new_big_cloud)
 
         pressed_keys = pygame.key.get_pressed()
+
+        if score > 19:
+            if rainbow is False:
+                current_x = player.rect.x
+                current_y = player.rect.y
+                player.kill()
+                new_player = RainbowPlayer(current_x, current_y)
+                all_sprites.add(new_player)
+                rainbow = True
+
+            if pygame.sprite.spritecollideany(new_player, enemies):
+                for entity in all_sprites:
+                    entity.kill()
+                return score#exits game when player dead
+
+            new_player.update(pressed_keys)
+
+            for coin in coins:
+                if new_player.rect.colliderect(coin):
+                    coin.kill()
+                    score+=1
+        else:
+            if pygame.sprite.spritecollideany(player, enemies):
+                for entity in all_sprites:
+                    entity.kill()
+                return score#exits game when player dead
+            player.update(pressed_keys)
+
+            for coin in coins:
+                if player.rect.colliderect(coin):
+                    coin.kill()
+                    score+=1
         # Update the player sprite based on user keypresses
-        player.update(pressed_keys)
 
         # Update sprite positions
         enemies.update()
         clouds.update()
         coins.update()
+        big_clouds.update()
 
         # Draw the sky background
         screen.blit(sky_bg,(0,0))
@@ -140,7 +172,7 @@ def play_level(screen):
 
         font = pygame.font.Font(None, 74)
         text = font.render(str(score), 1, (255, 255, 255))
-        screen.blit(text, (SCREEN_HEIGHT-80,10))
+        screen.blit(text, (10,SCREEN_HEIGHT-80))
 
 
         # Update the display
@@ -182,8 +214,8 @@ def end_screen(screen, score):
     """
     """
     titleFont = pygame.font.Font(None, 40)
-    if score < 100:
-        pressKeySurf = titleFont.render('But can you make it to 100? Try again!', True, (0,0,0))
+    if score < 20:
+        pressKeySurf = titleFont.render('But can you make it to 20? Try again!', True, (0,0,0))
     else:
         pressKeySurf = titleFont.render('Good job! But can you get higher?', True, (0,0,0))
     pressKeyRect = pressKeySurf.get_rect()
