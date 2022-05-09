@@ -55,16 +55,16 @@ Fun fact: Aaron really loves learning languages. He has studied french for 7 yea
 Quote: "PLEEEEEEEEASSSSE" -Aaron 2022
 
 ## Meredith:
-Meredith "Should've stayed in middle school" Alley is currently **DEVELOPING** her interest in game design _yall see what i did there ;) DEVELOPING get it_
+Meredith "Should've stayed in middle school" Alley is currently **DEVELOPING** her interest in game design _yall see what i did there ;) **DEVELOPING** get it_.
 
-Fun fact: My two younger sisters are planning on going to Wellesley and Babson,respectively
+Fun fact: My two younger sisters are planning on going to Wellesley and Babson,respectively.
 
 Quote:"So it Goes" - Meredith 2022
 
 ## Gabe: 
-Gabe "Mr.Nissan" Zak enjoys racing, working on his car, gaming, and 
+Gabe "Mr.Nissan" Zak enjoys racing, working on his car, gaming, and spending time with friends/family.
 working hard towards a mechanical engineering degree
 
-Fun fact: Gabe the type of homie to look you dead in the eye and come up with a word that doesn't exist, yet you somehow know exactly what it means
+Fun fact: Gabe the type of homie to look you dead in the eye and come up with a word that doesn't exist, yet you somehow know exactly what it means.
 
 Quote: "ayo they dropped dinner early today" "Zamn" -Gabe 2022
