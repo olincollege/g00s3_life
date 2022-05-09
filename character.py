@@ -29,15 +29,15 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         """
         initializes player
-        
+
         Args: self
         """
         super(Player, self).__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/flygrey1.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (80, 48))
-        badColor = self.surf.get_at((0, 0))
-        self.surf.set_colorkey(badColor)
+        BADCOLOR = self.surf.get_at((0, 0))
+        self.surf.set_colorkey(BADCOLOR)
         self.rect = self.surf.get_rect()
         self.rect.y = SCREEN_HEIGHT/2
         self.rect.x = 100
@@ -75,14 +75,14 @@ class Player(pygame.sprite.Sprite):
 class RainbowPlayer(pygame.sprite.Sprite):
     """
     takes the same inputs as the player class
-    a "re-skin" of the original g00se Life goose 
+    a "re-skin" of the original g00se Life goose
     """
 
     def __init__(self, x, y):
         """
         initializes the RainbowPlayer
 
-        Args: 
+        Args:
             self
             x - the player's x position to swap out where goose should be
             y - the player's y position to swap out where goose should be
@@ -202,7 +202,7 @@ class BigCloud(pygame.sprite.Sprite):
     # Remove the BigCloud when it passes the left edge of the screen
     def update(self):
         """
-        updates BigCloud current position on screen 
+        updates BigCloud current position on screen
         also removes BigCloud sprite if it passes left edge of screen
 
         Args: self
@@ -262,8 +262,8 @@ class Coin(pygame.sprite.Sprite):
 
     def __init__(self):
         """
-        initializes coin 
-        
+        initializes coin
+
         Args: self
 
         Returns: an interactable coin sprite at random points on the screen

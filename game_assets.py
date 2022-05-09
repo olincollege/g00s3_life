@@ -3,9 +3,17 @@ stores functions and classes we call in order to play the game
 
 """
 # importing needed libraries
+import sys
 import pygame
 import pygame.freetype
-import sys
+
+# Import pygame.locals for easier access to key coordinates
+from pygame.locals import (
+    K_ESCAPE,
+    KEYDOWN,
+    KEYUP,
+    QUIT,
+)
 from constraints import SCREEN_WIDTH
 from constraints import SCREEN_HEIGHT
 from character import Player
@@ -15,21 +23,10 @@ from character import Cloud
 from character import BigCloud
 from character import Coin
 
-# Import pygame.locals for easier access to key coordinates
-from pygame.locals import (
-    # RLEACCEL,
-    # K_UP,
-    # K_DOWN,
-    # K_LEFT,
-    # K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    KEYUP,
-    QUIT,
-)
+
 
 # Defining variables
-global score
+global SCORE
 
 # Setting up screens
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))#Game window
@@ -47,10 +44,10 @@ hills_bg.set_colorkey(bad_color)
 
 # Setting up in-game clock for frame-rate purposes
 clock = pygame.time.Clock()
-running = True
-score = 0
+RUNNING = True
+SCORE = 0
 
-# Setting up in-game sprite groups 
+# Setting up in-game sprite groups
 enemies = pygame.sprite.Group()
 clouds = pygame.sprite.Group()
 big_clouds = pygame.sprite.Group()
@@ -78,18 +75,18 @@ def play_level(screen):
         screen: The screen on which the game is displayed
 
     Returns:
-        score: The number of coins that the player collected in their runtime
+        SCORE: The number of coins that the player collected in their runtime
     """
     #Initializes the game states
-    global score, running
-    score = 0
+    global SCORE, RUNNING
+    SCORE = 0
     i = 0
     player = Player()
     all_sprites.add(player)
     rainbow = False # Has the condition for rainbow bird been achieved?
 
     #Runs the actual game
-    while running:
+    while RUNNING:
         # for loop through the event queue
         for event in pygame.event.get():
             # Check for KEYDOWN event
@@ -130,7 +127,7 @@ def play_level(screen):
                 all_sprites.add(new_big_cloud)
 
         # Are we supposed to be rainbow?
-        if score > 14:
+        if SCORE > 14:
             # Have we already changed the goose?
             if rainbow is False:
                 # Replace the current player, in the same position, with the
@@ -169,9 +166,9 @@ def play_level(screen):
         for entity in all_sprites:
             screen.blit(entity.surf, entity.rect)
 
-        #Display the score
+        #Display the SCORE
         font = pygame.font.Font(None, 74)
-        text = font.render(str(score), 1, (255, 255, 255))
+        text = font.render(str(SCORE), 1, (255, 255, 255))
         screen.blit(text, (10, SCREEN_HEIGHT-50))
 
         # Update the display
@@ -180,8 +177,8 @@ def play_level(screen):
         # Ensure program maintains a rate of 60 frames per second
         clock.tick(60)
 
-        if running is False:
-            return score
+        if RUNNING is False:
+            return SCORE
 
 def update_player(goose):
     """
@@ -191,7 +188,7 @@ def update_player(goose):
         version: Establishes if the goose is rainbow or not
     """
     # Globals
-    global score, running
+    global SCORE, RUNNING
 
     # Find which key, if any, is being pressed
     pressed_keys = pygame.key.get_pressed()
@@ -200,18 +197,18 @@ def update_player(goose):
     if pygame.sprite.spritecollideany(goose, enemies):
         for entity in all_sprites:
             entity.kill()
-        running = False
+        RUNNING = False
 
     # Moves the goose
     goose.update(pressed_keys)
 
-    # Collects coins and updates score
+    # Collects coins and updates SCORE
     for coin in coins:
         if goose.rect.colliderect(coin):
             coin.kill()
-            score += 1
+            SCORE += 1
 
-    
+
 
 def check_for_key_press():
     """
@@ -247,12 +244,12 @@ def title_screen(screen):
         screen: the screen on which the game is drawn
     """
     #Displays art and text
-    titleFont = pygame.font.Font(None, 40)
-    pressKeySurf = titleFont.render('Press any key!', True, (0, 0, 0))
-    pressKeyRect = pressKeySurf.get_rect()
-    pressKeyRect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
+    title_font = pygame.font.Font(None, 40)
+    press_key_surf = title_font.render('Press any key!', True, (0, 0, 0))
+    press_key_rect = press_key_surf.get_rect()
+    press_key_rect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
     screen.blit(start_screen, (0, 0)) # Art
-    screen.blit(pressKeySurf, pressKeyRect) # Text
+    screen.blit(press_key_surf, press_key_rect) # Text
 
     #Initiates gameplay
     while True:
@@ -262,31 +259,31 @@ def title_screen(screen):
         pygame.display.flip()
 
 
-def end_screen(screen, score):
+def end_screen(screen, SCORE):
     """
     Displays the screen that appears when the player loses/is hit by an enemy
 
     Args:
         screen: The screen on which the game is displayed
-        score: The amount of coins the player collected during this run
+        SCORE: The amount of coins the player collected during this run
     """
-    # Chooses which text, based on score, to display
-    titleFont = pygame.font.Font(None, 40)
-    if score < 15:
-        pressKeySurf = titleFont.render(
+    # Chooses which text, based on SCORE, to display
+    title_font = pygame.font.Font(None, 40)
+    if SCORE < 15:
+        press_key_surf = title_font.render(
             'But can you make it to 15? Try again!', True, (0, 0, 0))
-    elif score < 50:
-        pressKeySurf = titleFont.render(
+    elif SCORE < 50:
+        press_key_surf = title_font.render(
             'But can you make it all the way to 50? Try again!', \
                 True, (0, 0, 0))
     else:
-        pressKeySurf = titleFont.render(':)', True, (0, 0, 0))
-    pressKeyRect = pressKeySurf.get_rect()
-    pressKeyRect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
+        press_key_surf = title_font.render(':)', True, (0, 0, 0))
+    press_key_rect = press_key_surf.get_rect()
+    press_key_rect.bottomright = (SCREEN_WIDTH-10, SCREEN_HEIGHT-5)
 
     # Displays art and text
     screen.blit(loss_screen, (0, 0)) # Art
-    screen.blit(pressKeySurf, pressKeyRect) # Text
+    screen.blit(press_key_surf, press_key_rect) # Text
 
     # Makes sure nobody accidentally restarts before they see the screen
     pygame.display.update()
@@ -294,11 +291,11 @@ def end_screen(screen, score):
     check_for_key_press()
 
     # Restarts gameplay
-    global running
+    global RUNNING
     while True:
         if check_for_key_press():
             pygame.event.get()
-            running = True
+            RUNNING = True
             return
 
         pygame.display.flip()

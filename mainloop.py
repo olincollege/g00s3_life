@@ -13,5 +13,5 @@ title_screen(screen)
 
 #Loops between game and end/retry screen
 while True:
-    final_score = play_level(screen)
-    end_screen(screen, final_score)
+    FINAL_SCORE = play_level(screen)
+    end_screen(screen, FINAL_SCORE)

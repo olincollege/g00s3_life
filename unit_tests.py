@@ -1,9 +1,12 @@
+"""
+this file contains our unit tests
+"""
 import pytest
-import character
 import pygame
+import character
+
 from constraints import *
 
-pygame.init()
 
 # Set up the drawing window
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
@@ -17,6 +20,7 @@ test_player = character.Player()
     (test_player.rect.height, 48),
     (test_player.rect.width, 80)
 ])
+
 def test_player(actual, expected):
     assert actual == expected
 
