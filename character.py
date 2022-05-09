@@ -92,7 +92,7 @@ class Enemy(pygame.sprite.Sprite):
     """
     def __init__(self):
         super(Enemy, self).__init__()
-        self.surf = pygame.image.load("images/duck.png").convert()
+        self.surf = pygame.image.load("images/player_sprites/duck.png").convert()
         self.surf = pygame.transform.scale(self.surf, (40,30))
         badColor = self.surf.get_at((0,0))
         self.surf.set_colorkey(badColor)

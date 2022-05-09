@@ -1,41 +1,29 @@
+import pytest
+import character
 import pygame
-from sqlalchemy import true
-from game_assets import score
+from constraints import *
 
-from pygame.locals import (
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-)
+pygame.init()
+
+# Set up the drawing window
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+
+# Initialize one of each type for testing
+test_player = character.Player()
 
 
+@pytest.mark.parametrize("actual,expected", [
+    (test_player.rect.x, 100),
+    (test_player.rect.height, 48),
+    (test_player.rect.width, 80)
+])
+def test_player(actual, expected):
+    assert actual == expected
 
-def test_button_press():
-    """
-    simulates a button push and checks that the button moves character right
-    """
-#simulates a keypress
-check = pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT))
-if =check
-assert True
 
-def test_window_size():
-    """
-    Test that the default display size of the pygame window is.
-    """
-    pygame.init()
-    display_size = (800, 560)
-    test_size = pygame.display.get_window_size()
-    pygame.quit()
-    if display_size == test_size:
-        assert True
-
-def coin_adding():
-    """
-    test that coins are being added
-    """
-    if score == 1:
-        assert true
+@pytest.mark.parametrize("actual,expected", [
+    (screen.get_width(), 800),
+    (screen.get_height(), 560)
+])
+def test_screen(actual, expected):
+    assert actual == expected
