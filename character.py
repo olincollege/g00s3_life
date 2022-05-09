@@ -3,12 +3,8 @@ This is where the character sprites are stored
 
 """
 # Import the pygame module
-import pygame
 import random
-
-#importing the screen size and height from constraints
-from constraints import SCREEN_WIDTH
-from constraints import SCREEN_HEIGHT
+import pygame
 
 # importing the specific key inputs we need
 from pygame.locals import (
@@ -19,6 +15,9 @@ from pygame.locals import (
     K_RIGHT
 )
 
+#importing the screen size and height from constraints
+from constraints import SCREEN_WIDTH
+from constraints import SCREEN_HEIGHT
 
 class Player(pygame.sprite.Sprite):
     """
@@ -32,12 +31,12 @@ class Player(pygame.sprite.Sprite):
 
         Args: self
         """
-        super(Player, self).__init__()
+        super().__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/flygrey1.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (80, 48))
-        BADCOLOR = self.surf.get_at((0, 0))
-        self.surf.set_colorkey(BADCOLOR)
+        bad_color = self.surf.get_at((0, 0))
+        self.surf.set_colorkey(bad_color)
         self.rect = self.surf.get_rect()
         self.rect.y = SCREEN_HEIGHT/2
         self.rect.x = 100
@@ -62,14 +61,17 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[K_RIGHT]:
             self.rect.move_ip(5, 0)
 
-        if self.rect.top < 0:
-            self.rect.top = 0
-        if self.rect.bottom > SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
+        self.rect.top = max(self.rect.top, 0)
+        self.rect.bottom = min(self.rect.bottom, SCREEN_HEIGHT)
+        self.rect.left = max(self.rect.left, 0)
+        self.rect.right = min(self.rect.right, SCREEN_HEIGHT)
+
+    @property
+    def self(self):
+        """
+        Too few public methods
+        """
+        return self
 
 
 class RainbowPlayer(pygame.sprite.Sprite):
@@ -78,25 +80,25 @@ class RainbowPlayer(pygame.sprite.Sprite):
     a "re-skin" of the original g00se Life goose
     """
 
-    def __init__(self, x, y):
+    def __init__(self, x_pos, y_pos):
         """
         initializes the RainbowPlayer
 
         Args:
             self
-            x - the player's x position to swap out where goose should be
-            y - the player's y position to swap out where goose should be
+            x_pos - the player's x position to swap out where goose should be
+            y_pos - the player's y position to swap out where goose should be
 
         """
-        super(RainbowPlayer, self).__init__()
+        super().__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/rainbowfly.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (80, 48))
-        badColor = self.surf.get_at((0, 0))
-        self.surf.set_colorkey(badColor)
+        bad_color = self.surf.get_at((0, 0))
+        self.surf.set_colorkey(bad_color)
         self.rect = self.surf.get_rect()
-        self.rect.y = y
-        self.rect.x = x
+        self.rect.y = y_pos
+        self.rect.x = x_pos
 
     def update(self, pressed_keys):
         """
@@ -116,14 +118,17 @@ class RainbowPlayer(pygame.sprite.Sprite):
         if pressed_keys[K_RIGHT]:
             self.rect.move_ip(5, 0)
 
-        if self.rect.top < 0:
-            self.rect.top = 0
-        if self.rect.bottom > SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
+        self.rect.top = max(self.rect.top, 0)
+        self.rect.bottom = min(self.rect.bottom, SCREEN_HEIGHT)
+        self.rect.left = max(self.rect.left, 0)
+        self.rect.right = min(self.rect.right, SCREEN_HEIGHT)
+
+    @property
+    def self(self):
+        """
+        Too few public methods
+        """
+        return self
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -139,12 +144,12 @@ class Enemy(pygame.sprite.Sprite):
         Args: self
 
         """
-        super(Enemy, self).__init__()
+        super().__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/duck.png").convert()
         self.surf = pygame.transform.scale(self.surf, (40, 30))
-        badColor = self.surf.get_at((0, 0))
-        self.surf.set_colorkey(badColor)
+        bad_color = self.surf.get_at((0, 0))
+        self.surf.set_colorkey(bad_color)
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
@@ -155,6 +160,9 @@ class Enemy(pygame.sprite.Sprite):
 
     @property
     def self(self):
+        """
+        Too few public methods
+        """
         return self
 
     # Move the sprite based on speed
@@ -185,7 +193,7 @@ class BigCloud(pygame.sprite.Sprite):
         Args: self
 
         """
-        super(BigCloud, self).__init__()
+        super().__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/Goose_Life_Cloud.png").convert()
         self.surf = pygame.transform.scale(self.surf, (200, 200))
@@ -211,6 +219,13 @@ class BigCloud(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+    @property
+    def self(self):
+        """
+        Too few public methods
+        """
+        return self
+
 
 class Cloud(pygame.sprite.Sprite):
     """
@@ -224,7 +239,7 @@ class Cloud(pygame.sprite.Sprite):
         Args: self
 
         """
-        super(Cloud, self).__init__()
+        super().__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/Goose_Life_Cloud.png").convert()
         self.surf = pygame.transform.scale(self.surf, (100, 100))
@@ -252,6 +267,13 @@ class Cloud(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+    @property
+    def self(self):
+        """
+        Too few public methods
+        """
+        return self
+
 
 class Coin(pygame.sprite.Sprite):
     """
@@ -268,7 +290,7 @@ class Coin(pygame.sprite.Sprite):
 
         Returns: an interactable coin sprite at random points on the screen
         """
-        super(Coin, self).__init__()
+        super().__init__()
         self.surf = pygame.image.load(
             "images/player_sprites/coin.PNG").convert()
         self.surf = pygame.transform.scale(self.surf, (60, 60))
@@ -296,3 +318,10 @@ class Coin(pygame.sprite.Sprite):
         self.rect.move_ip(-3, 0)
         if self.rect.right < 0:
             self.kill()
+
+    @property
+    def self(self):
+        """
+        Too few public methods
+        """
+        return self
